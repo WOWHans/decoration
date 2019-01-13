@@ -45,7 +45,7 @@
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>${mybatis-generator-maven-plugin.version}</version>
                 <configuration>
-                    <configurationFile>src/main/resources/autogen/*.xml</configurationFile>
+                    <!--<configurationFile>src/main/resources/autogen/*.xml</configurationFile>-->
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                 </configuration>
