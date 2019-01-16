@@ -8,6 +8,7 @@
         <module>decoration-common</module>
         <module>decoration-dal</module>
         <module>decoration-biz</module>
+        <module>decoration-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
