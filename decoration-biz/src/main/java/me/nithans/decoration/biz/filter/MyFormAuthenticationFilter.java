@@ -7,7 +7,6 @@ import org.apache.shiro.web.util.WebUtils;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Slf4j
@@ -40,7 +39,7 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
     protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
         try {
             log.error("用户未登录,请求:{} 被拒", WebUtils.toHttp(request).getRequestURI());
-            request.getRequestDispatcher("/login/access/denied").forward(request,response);
+            request.getRequestDispatcher("/account/access/denied").forward(request,response);
         } catch (ServletException e) {
             log.error("Redirect To Login Request error", e);
         }

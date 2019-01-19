@@ -1,8 +1,11 @@
 package me.nithans.decoration.biz.exception;
 
 import com.alibaba.fastjson.support.spring.FastJsonJsonView;
-import com.alibaba.fastjson.support.spring.annotation.FastJsonView;
 import com.google.common.collect.Maps;
+import me.nithans.decoration.common.enums.ResponseCode;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -18,15 +21,16 @@ public class ShiroExceptionHandler implements HandlerExceptionResolver {
         ModelAndView mv = new ModelAndView();
         FastJsonJsonView jsonView = new FastJsonJsonView();
         Map<String,Object> attributesMap = Maps.newHashMap();
+        attributesMap.put("status",false);
         if (e instanceof UnauthenticatedException) {
-            attributesMap.put("error_code","10001");
-            attributesMap.put("error","用户未登录");
+            attributesMap.put("code", ResponseCode.USER_NOT_LOGIN.getCode());
+            attributesMap.put("msg", ResponseCode.USER_NOT_LOGIN.getMsg());
         } else if(e instanceof UnauthorizedException) {
-            attributesMap.put("error_code","10002");
-            attributesMap.put("error","用户未授权");
+            attributesMap.put("code", ResponseCode.USER_NO_AUTHORITY.getCode());
+            attributesMap.put("msg", ResponseCode.USER_NO_AUTHORITY.getMsg());
         } else {
-            attributesMap.put("error_code","10003");
-            attributesMap.put("error",e.getMessage());
+            attributesMap.put("code", ResponseCode.NOKNOWN_ERROR.getCode());
+            attributesMap.put("msg",e.getMessage());
         }
         jsonView.setAttributesMap(attributesMap);
         mv.setView(jsonView);
