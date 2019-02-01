@@ -1,10 +1,6 @@
 package me.nithans.decoration.api.controller.bean;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonSerialize(
-        include = JsonSerialize.Inclusion.NON_NULL
-)
 public class ResultInfo<T> {
 
     private Integer code = 0;

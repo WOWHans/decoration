@@ -1,11 +1,8 @@
-package me.nithans.decoration.biz.exception;
+package me.nithans.decoration.biz.shiro.exception;
 
 import com.alibaba.fastjson.support.spring.FastJsonJsonView;
 import com.google.common.collect.Maps;
 import me.nithans.decoration.common.enums.ResponseCode;
-import org.apache.shiro.authc.DisabledAccountException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.servlet.HandlerExceptionResolver;

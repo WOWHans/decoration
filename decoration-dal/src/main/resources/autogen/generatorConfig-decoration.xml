@@ -40,9 +40,9 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="user" domainObjectName="User">
+        <table tableName="decoration_user" domainObjectName="User">
             <property name="useActualColumnNames" value="false" />
-            <!--<generatedKey column="Id" sqlStatement="MySql" identity="true" />-->
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
 
     </context>

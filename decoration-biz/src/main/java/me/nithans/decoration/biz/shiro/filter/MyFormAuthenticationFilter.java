@@ -1,4 +1,4 @@
-package me.nithans.decoration.biz.filter;
+package me.nithans.decoration.biz.shiro.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;

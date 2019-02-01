@@ -2,7 +2,7 @@ package me.nithans.decoration.api.controller.shiro;
 
 import me.nithans.decoration.api.controller.AbstractController;
 import me.nithans.decoration.api.controller.bean.ResultInfo;
-import me.nithans.decoration.biz.service.shiro.UserService;
+import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.common.enums.ResponseCode;
 import me.nithans.decoration.common.pojo.vo.LoginInfoVO;
 import org.apache.shiro.SecurityUtils;
