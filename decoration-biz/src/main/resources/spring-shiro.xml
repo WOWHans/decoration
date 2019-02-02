@@ -25,14 +25,6 @@
                 <!-- anon无权限访问请求，此处是登录页面和登录请求 -->
                 /account/login = anon
                 /account/register = anon
-                <!--/swagger-ui.html = anon-->
-                <!--/swagger-resources = anon-->
-                <!--/v2/api-docs = anon-->
-                <!--/webjars/springfox-swagger-ui/** = anon-->
-                <!--/login/** = anon-->
-                <!--/company/business/callback = anon-->
-                <!--/car/rawdata/replace = anon-->
-                <!--拦截非静态资源的所有请求-->
                 /** = authc
             </value>
         </property>
