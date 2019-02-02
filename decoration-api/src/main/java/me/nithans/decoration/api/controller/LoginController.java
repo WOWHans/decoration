@@ -1,7 +1,7 @@
-package me.nithans.decoration.api.controller.shiro;
+package me.nithans.decoration.api.controller;
 
-import me.nithans.decoration.api.controller.AbstractController;
-import me.nithans.decoration.api.controller.bean.ResultInfo;
+import me.nithans.decoration.api.bean.ResultInfo;
+import me.nithans.decoration.biz.bean.vo.RegisterUserVO;
 import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.common.enums.ResponseCode;
 import me.nithans.decoration.common.pojo.vo.LoginInfoVO;
@@ -33,7 +33,7 @@ public class LoginController extends AbstractController {
     public ResultInfo login(@Validated @RequestBody LoginInfoVO loginInfo) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginInfo.getUsername(),
-                userService.encryptPassword(loginInfo.getPassword(),loginInfo.getUsername()));
+                userService.encryptPassword(loginInfo.getPassword()));
         try {
             subject.login(token);
             return super.renderResult(subject.getSession().getId().toString());
@@ -52,5 +52,14 @@ public class LoginController extends AbstractController {
     @RequestMapping(value = "/connect/refused")
     public ResultInfo connectRefused() {
         return super.renderError(ResponseCode.USER_NOT_LOGIN.getCode(), ResponseCode.USER_NOT_LOGIN.getMsg());
+    }
+
+    @RequestMapping(value = "/register")
+    public ResultInfo register(@Validated @RequestBody LoginInfoVO loginInfo) throws Exception {
+        RegisterUserVO registerUserVO = new RegisterUserVO();
+        registerUserVO.setUsername(loginInfo.getUsername());
+        registerUserVO.setPassword(loginInfo.getPassword());
+        userService.create(registerUserVO);
+        return super.renderSuccess();
     }
 }

@@ -40,10 +40,23 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="decoration_user" domainObjectName="User">
+        <!--<table tableName="decoration_user" domainObjectName="User">-->
+            <!--<property name="useActualColumnNames" value="false" />-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <table tableName="decoration_resource" domainObjectName="Resource">
             <property name="useActualColumnNames" value="false" />
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
+        <table tableName="decoration_user_role" domainObjectName="UserRole">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="decoration_role_resource" domainObjectName="RoleResource">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+
 
     </context>
 

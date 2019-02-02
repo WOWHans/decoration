@@ -1,4 +1,4 @@
-package me.nithans.decoration.api.controller.bean;
+package me.nithans.decoration.api.bean;
 
 
 public class ResultInfo<T> {

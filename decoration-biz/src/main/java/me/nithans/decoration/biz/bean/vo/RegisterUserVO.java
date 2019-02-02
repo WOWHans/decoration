@@ -1,6 +1,8 @@
 package me.nithans.decoration.biz.bean.vo;
 
 
+import javax.validation.constraints.NotBlank;
+
 public class RegisterUserVO {
 
     private Integer userId;

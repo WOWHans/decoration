@@ -1,5 +1,6 @@
 package me.nithans.decoration.biz.shiro.realm;
 
+import me.nithans.decoration.biz.service.ResourceService;
 import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.common.enums.UserStatusEnum;
 import me.nithans.decoration.dal.domain.decoration.User;
@@ -20,6 +21,8 @@ public class UserRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ResourceService resourceService;
 
     /**
      * 授权
@@ -30,11 +33,11 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String username = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        Set<String> roleSet = new HashSet<>();
+
         User user = userService.findUserByUsername(username);
-
-
-        return null;
+        Set<String> resourceSet = resourceService.findResouceByUserId(user.getId());
+        authorizationInfo.setStringPermissions(resourceSet);
+        return authorizationInfo;
     }
 
     /**

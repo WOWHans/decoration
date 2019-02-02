@@ -1,6 +1,6 @@
 package me.nithans.decoration.api.controller;
 
-import me.nithans.decoration.api.controller.bean.ResultInfo;
+import me.nithans.decoration.api.bean.ResultInfo;
 
 public abstract class AbstractController {
 
