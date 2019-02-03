@@ -7,6 +7,7 @@ public class ResultInfo<T> {
     private Boolean status = Boolean.TRUE;
     private String msg;
     private T data;
+    private Long timestamp = System.currentTimeMillis();
 
     public Integer getCode() {
         return code;
@@ -38,5 +39,9 @@ public class ResultInfo<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 }
