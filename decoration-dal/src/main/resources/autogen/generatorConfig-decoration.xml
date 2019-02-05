@@ -56,6 +56,26 @@
             <property name="useActualColumnNames" value="false" />
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
+        <table tableName="decoration_order" domainObjectName="Order">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="decoration_order_detail" domainObjectName="OrderDetail">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="decoration_material" domainObjectName="Material">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="decoration_material_type" domainObjectName="MaterialType">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="decoration_baseinfo" domainObjectName="HomeBaseInfo">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
 
 
     </context>
