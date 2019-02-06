@@ -7,7 +7,9 @@ public enum ResponseCode {
     USER_PASSWORD_ERROR(10003,"密码错误"),
     USER_ACCOUNT_NOTEXIST(10004,"账号不存在"),
     USER_ACCOUNT_DISABLED(10005,"账号被禁用"),
-    NOKNOWN_ERROR(19999,"其他错误");
+    NOKNOWN_ERROR(19999,"其他错误"),
+
+    ORDER_CREATE_ERROR(11000,"订单创建失败");
 
     private Integer code;
     private String msg;
