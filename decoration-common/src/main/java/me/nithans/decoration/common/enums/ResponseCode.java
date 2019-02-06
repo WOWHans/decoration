@@ -9,7 +9,8 @@ public enum ResponseCode {
     USER_ACCOUNT_DISABLED(10005,"账号被禁用"),
     NOKNOWN_ERROR(19999,"其他错误"),
 
-    ORDER_CREATE_ERROR(11000,"订单创建失败");
+    ORDER_CREATE_ERROR(11000,"订单创建失败"),
+    MATERIAL_CREATE_ERROR(110001,"材料保存失败");
 
     private Integer code;
     private String msg;
