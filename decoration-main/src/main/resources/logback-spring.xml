@@ -22,6 +22,5 @@
 		<appender-ref ref="FILE" />
 	</root>
 
-	<logger name="com.treefinance" level="DEBUG" />
-	<logger name="com.datatrees.toolkits" level="DEBUG" />
+	<logger name="me.nithans.decoration" level="DEBUG" />
 </configuration>
