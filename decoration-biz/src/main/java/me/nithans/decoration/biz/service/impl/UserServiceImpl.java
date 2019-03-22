@@ -12,7 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean create(RegisterUserVO userVO) throws Exception {
         UserCriteria userCriteria = new UserCriteria();
         userCriteria.createCriteria().andUsernameEqualTo(userVO.getUsername());
@@ -40,9 +44,15 @@ public class UserServiceImpl implements UserService {
             throw new Exception("用户名已存在");
         }
         User user = new User();
+        if (StringUtils.isEmpty(userVO.getPassword())) {
+            userVO.setPassword("123456");
+        }
         BeanUtils.copyProperties(userVO,user);
         user.setPassword(encryptPassword(user.getPassword()));
-        userMapper.insertSelective(user);
+        Integer userId = userMapper.insertSelective(user);
+        if (CollectionUtils.isEmpty(userVO.getGroups())) {
+
+        }
         return true;
     }
 

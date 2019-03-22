@@ -17,6 +17,9 @@
                 <entry key="authc">
                     <bean class="me.nithans.decoration.biz.shiro.filter.MyFormAuthenticationFilter" />
                 </entry>
+                <entry key="permission">
+                    <bean class="me.nithans.decoration.biz.shiro.filter.PermissionFilter" />
+                </entry>
             </map>
         </property>
         <!-- 权限配置 -->

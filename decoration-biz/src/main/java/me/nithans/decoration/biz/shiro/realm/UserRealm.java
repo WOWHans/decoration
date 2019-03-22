@@ -25,7 +25,7 @@ public class UserRealm extends AuthorizingRealm {
     private ResourceService resourceService;
 
     /**
-     * 授权
+     * 授权 将有权限的resource id 集合放入授权信息内，用于后面检验是否可访问
      * @param principalCollection
      * @return
      */
