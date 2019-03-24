@@ -1,6 +1,8 @@
 package me.nithans.decoration.biz.service.impl;
 
 import me.nithans.decoration.biz.bean.vo.RegisterUserVO;
+import me.nithans.decoration.biz.service.UserGroupService;
+import me.nithans.decoration.biz.service.UserRoleService;
 import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.dal.domain.decoration.User;
 import me.nithans.decoration.dal.domain.decoration.UserCriteria;
@@ -27,6 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserGroupService userGroupService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     public String encryptPassword(String password) {
@@ -49,19 +55,35 @@ public class UserServiceImpl implements UserService {
         }
         BeanUtils.copyProperties(userVO,user);
         user.setPassword(encryptPassword(user.getPassword()));
+        // 新增用户
         Integer userId = userMapper.insertSelective(user);
-        if (CollectionUtils.isEmpty(userVO.getGroups())) {
-
+        // 添加组
+        if (!CollectionUtils.isEmpty(userVO.getGroups())) {
+            userGroupService.addUserGroup(userId, userVO.getGroups());
+        }
+        // 添加角色
+        if (!CollectionUtils.isEmpty(userVO.getRoles())) {
+            userRoleService.addUserRole(userId,userVO.getRoles());
         }
         return true;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean update(RegisterUserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO,user);
         user.setPassword(null);
         userMapper.updateByPrimaryKeySelective(user);
+
+        userGroupService.deleteUserGroupByUserId(user.getId());
+        if (!CollectionUtils.isEmpty(userVO.getGroups())) {
+            userGroupService.addUserGroup(user.getId(), userVO.getGroups());
+        }
+        userRoleService.deleteUserRoleByUserId(user.getId());
+        if (!CollectionUtils.isEmpty(userVO.getRoles())) {
+            userRoleService.addUserRole(user.getId(), userVO.getRoles());
+        }
         return true;
     }
 

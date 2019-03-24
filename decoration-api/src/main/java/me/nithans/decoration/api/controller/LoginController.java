@@ -55,10 +55,7 @@ public class LoginController extends AbstractController {
     }
 
     @RequestMapping(value = "/register")
-    public ResultInfo register(@Validated @RequestBody LoginInfoVO loginInfo) throws Exception {
-        RegisterUserVO registerUserVO = new RegisterUserVO();
-        registerUserVO.setUsername(loginInfo.getUsername());
-        registerUserVO.setPassword(loginInfo.getPassword());
+    public ResultInfo register(@Validated @RequestBody RegisterUserVO registerUserVO) throws Exception {
         userService.create(registerUserVO);
         return super.renderSuccess();
     }
