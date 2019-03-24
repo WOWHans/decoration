@@ -36,4 +36,11 @@ public class UserGroupServiceImpl implements UserGroupService {
         userGroupCriteria.createCriteria().andUserIdEqualTo(userId);
         userGroupMapper.deleteByExample(userGroupCriteria);
     }
+
+    @Override
+    public void deleteUserGroupByGroupId(Integer groupId) {
+        UserGroupCriteria userGroupCriteria = new UserGroupCriteria();
+        userGroupCriteria.createCriteria().andGroupIdEqualTo(groupId);
+        userGroupMapper.deleteByExample(userGroupCriteria);
+    }
 }

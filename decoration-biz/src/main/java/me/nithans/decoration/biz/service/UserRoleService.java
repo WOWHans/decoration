@@ -7,4 +7,6 @@ public interface UserRoleService {
     void addUserRole(Integer userId, List<Integer> roleIdList);
 
     void deleteUserRoleByUserId(Integer userId);
+
+    void deleteUserRoleByRoleId(Integer roleId);
 }

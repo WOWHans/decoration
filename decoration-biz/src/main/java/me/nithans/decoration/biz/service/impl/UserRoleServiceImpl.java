@@ -36,4 +36,11 @@ public class UserRoleServiceImpl implements UserRoleService {
         userRoleCriteria.createCriteria().andUserIdEqualTo(userId);
         userRoleMapper.deleteByExample(userRoleCriteria);
     }
+
+    @Override
+    public void deleteUserRoleByRoleId(Integer roleId) {
+        UserRoleCriteria userRoleCriteria = new UserRoleCriteria();
+        userRoleCriteria.createCriteria().andRoleIdEqualTo(roleId);
+        userRoleMapper.deleteByExample(userRoleCriteria);
+    }
 }

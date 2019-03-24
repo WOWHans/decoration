@@ -1,13 +1,17 @@
 package me.nithans.decoration.biz.service.impl;
 
+import me.nithans.decoration.biz.bean.vo.ResourceVO;
 import me.nithans.decoration.biz.service.ResourceService;
 import me.nithans.decoration.biz.service.RoleResourceService;
 import me.nithans.decoration.common.pojo.query.ResourceQuery;
 import me.nithans.decoration.dal.domain.decoration.Resource;
 import me.nithans.decoration.dal.domain.decoration.ResourceCriteria;
 import me.nithans.decoration.dal.mapper.decoration.ResourceMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -23,7 +27,21 @@ public class ResourceServiceImpl implements ResourceService {
     private ResourceMapper resourceMapper;
 
     @Override
-    public Set<String> findResouceByUserId(Integer userId) {
+    public void addResource(ResourceVO resourceVO) {
+        Resource resource = new Resource();
+        BeanUtils.copyProperties(resourceVO, resource);
+        resourceMapper.insertSelective(resource);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void deleteResource(Integer resourceId) {
+        resourceMapper.deleteByPrimaryKey(resourceId);
+        roleResourceService.deleteRoleResourceByResourceId(resourceId);
+    }
+
+    @Override
+    public Set<String> findResourceByUserId(Integer userId) {
         Set<String> resourceIdList = roleResourceService.findRoleResourceByUserId(userId).stream().map(item -> String.valueOf(item.getResourceId())).collect(Collectors.toSet());
         return resourceIdList;
     }

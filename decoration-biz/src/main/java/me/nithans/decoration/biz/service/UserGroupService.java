@@ -7,4 +7,6 @@ public interface UserGroupService {
     void addUserGroup(Integer userId, List<Integer> groupIdList);
 
     void deleteUserGroupByUserId(Integer userId);
+
+    void deleteUserGroupByGroupId(Integer groupId);
 }

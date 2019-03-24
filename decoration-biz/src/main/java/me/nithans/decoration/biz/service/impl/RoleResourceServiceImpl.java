@@ -25,6 +25,13 @@ public class RoleResourceServiceImpl implements RoleResourceService {
     private RoleResourceMapper roleResourceMapper;
 
     @Override
+    public void deleteRoleResourceByResourceId(Integer resourceId) {
+        RoleResourceCriteria roleResourceCriteria = new RoleResourceCriteria();
+        roleResourceCriteria.createCriteria().andResourceIdEqualTo(resourceId);
+        roleResourceMapper.deleteByExample(roleResourceCriteria);
+    }
+
+    @Override
     public List<RoleResource> findRoleResourceByUserId(Integer userId) {
         UserRoleCriteria userRoleCriteria = new UserRoleCriteria();
         userRoleCriteria.createCriteria().andUserIdEqualTo(userId);

@@ -1,5 +1,6 @@
 package me.nithans.decoration.biz.service;
 
+import me.nithans.decoration.biz.bean.vo.ResourceVO;
 import me.nithans.decoration.common.pojo.query.ResourceQuery;
 import me.nithans.decoration.dal.domain.decoration.Resource;
 
@@ -8,6 +9,9 @@ import java.util.Set;
 
 public interface ResourceService {
 
-    Set<String> findResouceByUserId(Integer userId);
+    void addResource(ResourceVO resourceVO);
+    void deleteResource(Integer resourceId);
+
+    Set<String> findResourceByUserId(Integer userId);
     List<Resource> findResourceByQuery(ResourceQuery resourceQuery);
 }

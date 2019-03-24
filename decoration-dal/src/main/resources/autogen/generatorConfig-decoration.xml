@@ -44,10 +44,10 @@
             <!--<property name="useActualColumnNames" value="false" />-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
         <!--</table>-->
-        <!--<table tableName="decoration_resource" domainObjectName="Resource">-->
-            <!--<property name="useActualColumnNames" value="false" />-->
-            <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
+        <table tableName="decoration_resource" domainObjectName="Resource">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
         <!--<table tableName="decoration_user_role" domainObjectName="UserRole">-->
             <!--<property name="useActualColumnNames" value="false" />-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
@@ -81,14 +81,14 @@
             <!--<property name="useActualColumnNames" value="false" />-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
         <!--</table>-->
-        <table tableName="decoration_role" domainObjectName="Role">
-            <property name="useActualColumnNames" value="false" />
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
-        </table>
-        <table tableName="decoration_group" domainObjectName="Group">
-            <property name="useActualColumnNames" value="false" />
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
-        </table>
+        <!--<table tableName="decoration_role" domainObjectName="Role">-->
+            <!--<property name="useActualColumnNames" value="false" />-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!--<table tableName="decoration_group" domainObjectName="Group">-->
+            <!--<property name="useActualColumnNames" value="false" />-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
 
 
     </context>
