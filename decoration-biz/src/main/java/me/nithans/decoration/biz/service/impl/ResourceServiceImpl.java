@@ -1,20 +1,27 @@
 package me.nithans.decoration.biz.service.impl;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
 import me.nithans.decoration.biz.bean.vo.ResourceVO;
 import me.nithans.decoration.biz.service.ResourceService;
 import me.nithans.decoration.biz.service.RoleResourceService;
 import me.nithans.decoration.common.pojo.query.ResourceQuery;
 import me.nithans.decoration.dal.domain.decoration.Resource;
 import me.nithans.decoration.dal.domain.decoration.ResourceCriteria;
+import me.nithans.decoration.dal.domain.decoration.RoleResource;
 import me.nithans.decoration.dal.mapper.decoration.ResourceMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,6 +32,7 @@ public class ResourceServiceImpl implements ResourceService {
     private RoleResourceService roleResourceService;
     @Autowired
     private ResourceMapper resourceMapper;
+
 
     @Override
     public void addResource(ResourceVO resourceVO) {
@@ -63,7 +71,83 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public List<Resource> findResourceById(Integer id) {
+        if (id == null) {
+            return Lists.newArrayList();
+        }
+        ResourceCriteria criteria = new ResourceCriteria();
+        ResourceCriteria.Criteria c = criteria.createCriteria();
+        c.andIdEqualTo(id);
+        return resourceMapper.selectByExample(criteria);
+    }
+
+    @Override
     public List<ResourceVO> findResourceByRoleId(Integer roleId) {
-        return null;
+        List<RoleResource> roleResourceList = roleResourceService.findRoleResourceByUserId(roleId);
+        List<ResourceVO> resourceVOList = Lists.newArrayList();
+        roleResourceList.forEach(roleResource -> {
+            ResourceQuery query = new ResourceQuery();
+            query.setId(roleResource.getResourceId());
+            List<Resource> resourceList = findResourceByQuery(query);
+            if (!CollectionUtils.isEmpty(resourceList)) {
+                Resource resource = resourceList.get(0);
+                ResourceVO childResourceVO = convertToResourceVO(resource);
+
+                resourceVOList.add(childResourceVO);
+            }
+        });
+        return findComplexResource(resourceVOList);
+    }
+
+
+    /**
+     * 根据分配的资源获取整个相关权限的菜单树 单一菜单树
+     * @param childResourceVO
+     * @return
+     */
+    private ResourceVO findParentResource(ResourceVO childResourceVO) {
+        List<Resource> parentResourceList = findResourceById(childResourceVO.getParentId());
+        ResourceVO parentResourceVO = childResourceVO;
+        if (!CollectionUtils.isEmpty(parentResourceList)) {
+            Resource parentResource = parentResourceList.get(0);
+            parentResourceVO = convertToResourceVO(parentResource);
+            parentResourceVO.setChildResourceList(Lists.newArrayList(childResourceVO));
+            if (parentResourceVO.getParentId() != null) {
+                parentResourceVO = findParentResource(parentResourceVO);
+            }
+        }
+
+        return parentResourceVO;
+    }
+
+    /**
+     * 简单想法是把所有有权限的菜单全保存在Set里，然后再进行建树
+     *
+     * @param childRescourceVOList
+     * @return
+     */
+//    private List<ResourceVO> findComplexResource(List<ResourceVO> childRescourceVOList) {
+//        List<ResourceVO> resourceVOList = Lists.newArrayList();
+////        Table<Integer,Integer, List<ResourceVO>> table = HashBasedTable.create();
+//        childRescourceVOList.forEach(
+//                childResource -> {
+//                    ResourceVO resourceVO = findParentResource(childResource);
+//                    if (CollectionUtils.isEmpty(resourceVOList)) {
+//                        resourceVOList.add(resourceVO);
+//                    }
+//                    resourceVOList.add(resourceVO);
+//                }
+//        );
+//        return resourceVOList;
+//    }
+
+    private ResourceVO convertToResourceVO(Resource resource) {
+        ResourceVO resourceVO = new ResourceVO();
+        resourceVO.setResourceId(resource.getId());
+        resourceVO.setCode(resource.getCode());
+        resourceVO.setName(resource.getName());
+        resourceVO.setUrl(resource.getUrl());
+        resourceVO.setParentId(resource.getParentId());
+        return resourceVO;
     }
 }

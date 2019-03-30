@@ -9,13 +9,13 @@ public class ResourceVO {
 
     private String name;
 
-    private String code;
+    private Integer code;
 
     private String url;
 
-    private String parentId;
+    private Integer parentId;
 
-    private List<ResourceVO> resourceVOList = Lists.newArrayList();
+    private List<ResourceVO> childResourceList = Lists.newArrayList();
 
     public Integer getResourceId() {
         return resourceId;
@@ -33,11 +33,11 @@ public class ResourceVO {
         this.name = name;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -49,19 +49,19 @@ public class ResourceVO {
         this.url = url;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
-    public List<ResourceVO> getResourceVOList() {
-        return resourceVOList;
+    public List<ResourceVO> getChildResourceList() {
+        return childResourceList;
     }
 
-    public void setResourceVOList(List<ResourceVO> resourceVOList) {
-        this.resourceVOList = resourceVOList;
+    public void setChildResourceList(List<ResourceVO> childResourceList) {
+        this.childResourceList = childResourceList;
     }
 }

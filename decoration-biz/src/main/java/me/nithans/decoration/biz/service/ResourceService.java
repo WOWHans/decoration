@@ -21,4 +21,6 @@ public interface ResourceService {
 
     Set<String> findResourceByUserId(Integer userId);
     List<Resource> findResourceByQuery(ResourceQuery resourceQuery);
+
+    List<Resource> findResourceById(Integer id);
 }
