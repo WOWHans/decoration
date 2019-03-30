@@ -1,5 +1,9 @@
 package me.nithans.decoration.biz.bean.vo;
 
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
 public class ResourceVO {
     private Integer resourceId;
 
@@ -10,6 +14,8 @@ public class ResourceVO {
     private String url;
 
     private String parentId;
+
+    private List<ResourceVO> resourceVOList = Lists.newArrayList();
 
     public Integer getResourceId() {
         return resourceId;
@@ -49,5 +55,13 @@ public class ResourceVO {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    public List<ResourceVO> getResourceVOList() {
+        return resourceVOList;
+    }
+
+    public void setResourceVOList(List<ResourceVO> resourceVOList) {
+        this.resourceVOList = resourceVOList;
     }
 }

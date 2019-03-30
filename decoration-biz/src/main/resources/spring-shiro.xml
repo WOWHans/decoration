@@ -28,6 +28,7 @@
                 <!-- anon无权限访问请求，此处是登录页面和登录请求 -->
                 /account/login = anon
                 /account/register = anon
+                /account/access/denied = anon
                 /** = authc
             </value>
         </property>

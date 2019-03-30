@@ -12,6 +12,13 @@ public interface ResourceService {
     void addResource(ResourceVO resourceVO);
     void deleteResource(Integer resourceId);
 
+    /**
+     * 通过角色查询权限
+     * @param roleId
+     * @return
+     */
+    List<ResourceVO> findResourceByRoleId(Integer roleId);
+
     Set<String> findResourceByUserId(Integer userId);
     List<Resource> findResourceByQuery(ResourceQuery resourceQuery);
 }

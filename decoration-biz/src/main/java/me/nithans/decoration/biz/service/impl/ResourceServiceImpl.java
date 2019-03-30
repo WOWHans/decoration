@@ -61,4 +61,9 @@ public class ResourceServiceImpl implements ResourceService {
         }
         return resourceMapper.selectByExample(criteria);
     }
+
+    @Override
+    public List<ResourceVO> findResourceByRoleId(Integer roleId) {
+        return null;
+    }
 }
