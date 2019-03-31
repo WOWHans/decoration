@@ -1,9 +1,6 @@
 package me.nithans.decoration.biz.service.impl;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Table;
+import com.google.common.collect.*;
 import me.nithans.decoration.biz.bean.vo.ResourceVO;
 import me.nithans.decoration.biz.service.ResourceService;
 import me.nithans.decoration.biz.service.RoleResourceService;
@@ -33,6 +30,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Autowired
     private ResourceMapper resourceMapper;
 
+    private Map<Resource,Set<Resource>> menuMap = Maps.newConcurrentMap();
 
     @Override
     public void addResource(ResourceVO resourceVO) {
@@ -91,6 +89,11 @@ public class ResourceServiceImpl implements ResourceService {
             List<Resource> resourceList = findResourceByQuery(query);
             if (!CollectionUtils.isEmpty(resourceList)) {
                 Resource resource = resourceList.get(0);
+                if (!menuMap.containsKey(resource.getParentId())) {
+                    menuMap.put(findResourceById(resource.getParentId()).get(0), Sets.newHashSet(resource));
+                } else {
+                    menuMap.get(resource.getParentId()).add(resource);
+                }
                 ResourceVO childResourceVO = convertToResourceVO(resource);
 
                 resourceVOList.add(childResourceVO);
@@ -113,10 +116,14 @@ public class ResourceServiceImpl implements ResourceService {
             parentResourceVO = convertToResourceVO(parentResource);
             parentResourceVO.setChildResourceList(Lists.newArrayList(childResourceVO));
             if (parentResourceVO.getParentId() != null) {
+                if (!menuMap.containsKey(parentResource.getParentId())) {
+                    menuMap.put(findResourceById(parentResource.getParentId()).get(0), Sets.newHashSet(parentResource));
+                } else {
+                    menuMap.get(parentResource.getParentId()).add(parentResource);
+                }
                 parentResourceVO = findParentResource(parentResourceVO);
             }
         }
-
         return parentResourceVO;
     }
 
@@ -126,20 +133,30 @@ public class ResourceServiceImpl implements ResourceService {
      * @param childRescourceVOList
      * @return
      */
-//    private List<ResourceVO> findComplexResource(List<ResourceVO> childRescourceVOList) {
-//        List<ResourceVO> resourceVOList = Lists.newArrayList();
-////        Table<Integer,Integer, List<ResourceVO>> table = HashBasedTable.create();
-//        childRescourceVOList.forEach(
-//                childResource -> {
-//                    ResourceVO resourceVO = findParentResource(childResource);
-//                    if (CollectionUtils.isEmpty(resourceVOList)) {
-//                        resourceVOList.add(resourceVO);
-//                    }
-//                    resourceVOList.add(resourceVO);
-//                }
-//        );
-//        return resourceVOList;
-//    }
+    private List<ResourceVO> findComplexResource(List<ResourceVO> childRescourceVOList) {
+        List<ResourceVO> resourceVOList = Lists.newArrayList();
+//        Table<Integer,Integer, List<ResourceVO>> table = HashBasedTable.create();
+        childRescourceVOList.forEach(
+                childResource -> {
+                    ResourceVO resourceVO = findParentResource(childResource);
+                    if (CollectionUtils.isEmpty(resourceVOList)) {
+                        resourceVOList.add(resourceVO);
+                    }
+                    resourceVOList.add(resourceVO);
+                }
+        );
+        return resourceVOList;
+    }
+
+    private void convertToTree() {
+        List<Resource> lowestMenus = Lists.newArrayList();
+        // 获取最上层父级菜单
+        List<Resource> parentResourceList = menuMap.keySet().stream().filter(key -> StringUtils.isEmpty(key.getUrl())).collect(Collectors.toList());
+        // 通过父级菜单的Id 去找 map里的key 然后将value塞入父级菜单的自己菜单内，子级菜单做ke层层递归
+//        List<ResourceVO> allMenus = menuMap.values().stream().map(this::convertToResourceVO).collect(Collectors.toList());
+//        allMenus.stream().filter(item -> StringUtils.isEmpty(item.getUrl())).collect(Collectors.toList());
+
+    }
 
     private ResourceVO convertToResourceVO(Resource resource) {
         ResourceVO resourceVO = new ResourceVO();

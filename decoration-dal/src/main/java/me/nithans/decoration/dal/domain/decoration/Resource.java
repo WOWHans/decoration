@@ -299,4 +299,26 @@ public class Resource implements Serializable {
         sb.append("]");
         return sb.toString();
     }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Resource) {
+            Resource resource = (Resource) obj;
+            if (resource.getId().equals(this.id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
