@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -99,7 +100,8 @@ public class ResourceServiceImpl implements ResourceService {
                 resourceVOList.add(childResourceVO);
             }
         });
-        return findComplexResource(resourceVOList);
+        findComplexResource(resourceVOList);
+        return convertToTree();
     }
 
 
@@ -149,15 +151,28 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceVOList;
     }
 
-    private void convertToTree() {
-        List<Resource> lowestMenus = Lists.newArrayList();
+    private List<ResourceVO> convertToTree() {
+        List<ResourceVO> menuTrees = Lists.newArrayList();
         // 获取最上层父级菜单
-        List<Resource> parentResourceList = menuMap.keySet().stream().filter(key -> StringUtils.isEmpty(key.getUrl())).collect(Collectors.toList());
+        List<Resource> parentResourceList = menuMap.keySet().stream().filter(key -> key.getParentId() == null).collect(Collectors.toList());
         // 通过父级菜单的Id 去找 map里的key 然后将value塞入父级菜单的自己菜单内，子级菜单做ke层层递归
-//        List<ResourceVO> allMenus = menuMap.values().stream().map(this::convertToResourceVO).collect(Collectors.toList());
-//        allMenus.stream().filter(item -> StringUtils.isEmpty(item.getUrl())).collect(Collectors.toList());
+        parentResourceList.forEach(parent -> {
+            ResourceVO resourceVO = convertToResourceVO(parent);
+            menuTrees.add(buildMenuTree(resourceVO));
+        });
+        return menuTrees;
+    }
 
-
+    private ResourceVO buildMenuTree(ResourceVO resourceVO) {
+        Set<Resource> childList = menuMap.get(convertToResource(resourceVO));
+        if (childList != null) {
+            resourceVO.setChildResourceList(childList.stream().map(this::convertToResourceVO).collect(Collectors.toList()));
+            List<ResourceVO> parentList = resourceVO.getChildResourceList();
+            parentList.forEach(
+                    childParent -> buildMenuTree(childParent)
+            );
+        }
+        return resourceVO;
     }
 
     private ResourceVO convertToResourceVO(Resource resource) {
