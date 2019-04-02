@@ -30,19 +30,23 @@ public class LoginController extends AbstractController {
     public ResultInfo login(@Validated @RequestBody LoginInfoVO loginInfo) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginInfo.getUsername(),
-                userService.encryptPassword(loginInfo.getPassword()));
+            userService.encryptPassword(loginInfo.getPassword()));
         try {
             subject.login(token);
             return super.renderResult(subject.getSession().getId().toString());
         } catch (IncorrectCredentialsException e) {
-            return super.renderError(ResponseCode.USER_PASSWORD_ERROR.getCode(), ResponseCode.USER_PASSWORD_ERROR.getMsg());
+            return super.renderError(ResponseCode.USER_PASSWORD_ERROR.getCode(),
+                ResponseCode.USER_PASSWORD_ERROR.getMsg());
         } catch (UnknownAccountException e) {
-            return super.renderError(ResponseCode.USER_ACCOUNT_NOTEXIST.getCode(), ResponseCode.USER_ACCOUNT_NOTEXIST.getMsg());
+            return super.renderError(ResponseCode.USER_ACCOUNT_NOTEXIST.getCode(),
+                ResponseCode.USER_ACCOUNT_NOTEXIST.getMsg());
         } catch (DisabledAccountException e) {
-            return super.renderError(ResponseCode.USER_ACCOUNT_DISABLED.getCode(), ResponseCode.USER_ACCOUNT_DISABLED.getMsg());
+            return super.renderError(ResponseCode.USER_ACCOUNT_DISABLED.getCode(),
+                ResponseCode.USER_ACCOUNT_DISABLED.getMsg());
         } catch (Exception e) {
-            log.error("登录失败 info:[username:{},password:{}]",loginInfo.getUsername(),loginInfo.getPassword());
-            return super.renderError(ResponseCode.NOKNOWN_ERROR.getCode(),e.getMessage());
+            log.error("登录失败 info:[username:{},password:{}]", loginInfo.getUsername(),
+                loginInfo.getPassword());
+            return super.renderError(ResponseCode.NOKNOWN_ERROR.getCode(), e.getMessage());
         }
     }
 
@@ -55,11 +59,13 @@ public class LoginController extends AbstractController {
 
     @RequestMapping(value = "/access/denied")
     public ResultInfo connectRefused() {
-        return super.renderError(ResponseCode.USER_NOT_LOGIN.getCode(), ResponseCode.USER_NOT_LOGIN.getMsg());
+        return super.renderError(ResponseCode.USER_NOT_LOGIN.getCode(),
+            ResponseCode.USER_NOT_LOGIN.getMsg());
     }
 
     @RequestMapping(value = "/register")
-    public ResultInfo register(@Validated @RequestBody RegisterUserVO registerUserVO) throws Exception {
+    public ResultInfo register(@Validated @RequestBody RegisterUserVO registerUserVO)
+        throws Exception {
         userService.create(registerUserVO);
         return super.renderSuccess();
     }

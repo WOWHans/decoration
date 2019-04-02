@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String encryptPassword(String password) {
-        return new SimpleHash("md5",password, ByteSource.Util.bytes(salt),2).toHex();
+        return new SimpleHash("md5", password, ByteSource.Util.bytes(salt), 2).toHex();
     }
 
     @Override
@@ -46,14 +46,14 @@ public class UserServiceImpl implements UserService {
         userCriteria.createCriteria().andUsernameEqualTo(userVO.getUsername());
         long count = userMapper.countByExample(userCriteria);
         if (count > 0) {
-            LOGGER.warn("create user: username {} is repeated",userVO.getUsername());
+            LOGGER.warn("create user: username {} is repeated", userVO.getUsername());
             throw new Exception("用户名已存在");
         }
         User user = new User();
         if (StringUtils.isEmpty(userVO.getPassword())) {
             userVO.setPassword("123456");
         }
-        BeanUtils.copyProperties(userVO,user);
+        BeanUtils.copyProperties(userVO, user);
         user.setPassword(encryptPassword(user.getPassword()));
         // 新增用户
         Integer userId = userMapper.insertSelective(user);
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         }
         // 添加角色
         if (!CollectionUtils.isEmpty(userVO.getRoles())) {
-            userRoleService.addUserRole(userId,userVO.getRoles());
+            userRoleService.addUserRole(userId, userVO.getRoles());
         }
         return true;
     }
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean update(RegisterUserVO userVO) {
         User user = new User();
-        BeanUtils.copyProperties(userVO,user);
+        BeanUtils.copyProperties(userVO, user);
         user.setPassword(null);
         userMapper.updateByPrimaryKeySelective(user);
 
@@ -88,7 +88,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean modifyPassword(Integer userId, String oldPassword, String newPassword) throws Exception {
+    public boolean modifyPassword(Integer userId, String oldPassword, String newPassword)
+        throws Exception {
         User user = userMapper.selectByPrimaryKey(userId);
         if (user == null) {
             throw new Exception("用户不存在");
@@ -107,6 +108,6 @@ public class UserServiceImpl implements UserService {
         UserCriteria userCriteria = new UserCriteria();
         userCriteria.createCriteria().andUsernameEqualTo(username);
         List<User> userList = userMapper.selectByExample(userCriteria);
-        return CollectionUtils.isEmpty(userList)? null:userList.get(0);
+        return CollectionUtils.isEmpty(userList) ? null : userList.get(0);
     }
 }

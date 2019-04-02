@@ -28,7 +28,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(rollbackFor = Exception.class)
     public boolean createOrder(OrderDetailVO orderDetailVO) {
         // 订单号 username+时间戳
-        String orderSn = ((String) SecurityUtils.getSubject().getPrincipal()).concat(String.valueOf(System.currentTimeMillis()));
+        String orderSn = ((String) SecurityUtils.getSubject().getPrincipal())
+            .concat(String.valueOf(System.currentTimeMillis()));
         OrderDetail orderDetail = orderDetailVO.getOrderDetail();
         orderDetail.setOrderSn(orderSn);
         Order order = new Order();
@@ -51,11 +52,12 @@ public class OrderServiceImpl implements OrderService {
         OrderCriteria orderCriteria = new OrderCriteria();
         orderCriteria.createCriteria().andUserIdEqualTo(userId);
         List<Order> orderList = orderMapper.selectByExample(orderCriteria);
-        List<String> orderIdList = orderList.stream().map(item -> item.getOrderSn()).collect(Collectors.toList());
+        List<String> orderIdList = orderList.stream().map(item -> item.getOrderSn())
+            .collect(Collectors.toList());
 
         OrderDetailCriteria detailCriteria = new OrderDetailCriteria();
         detailCriteria.createCriteria().andOrderSnIn(orderIdList);
-        List<OrderDetail> detailList =  orderDetailMapper.selectByExample(detailCriteria);
+        List<OrderDetail> detailList = orderDetailMapper.selectByExample(detailCriteria);
         return detailList;
     }
 }

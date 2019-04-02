@@ -13,7 +13,8 @@ import java.io.IOException;
 public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
+        throws Exception {
         // 判断是否是登录请求
         if (this.isLoginRequest(request, response)) {
             // 判断是否是POST请求
@@ -28,7 +29,9 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
             }
         } else {
             if (log.isTraceEnabled()) {
-                log.trace("Attempting to access a path which requires authentication.  Forwarding to the Authentication url [" + this.getLoginUrl() + "]");
+                log.trace(
+                    "Attempting to access a path which requires authentication.  Forwarding to the Authentication url ["
+                        + this.getLoginUrl() + "]");
             }
             redirectToLogin(request, response);
             return false;
@@ -36,10 +39,11 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
     }
 
     @Override
-    protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
+    protected void redirectToLogin(ServletRequest request, ServletResponse response)
+        throws IOException {
         try {
             log.error("用户未登录,请求:{} 被拒", WebUtils.toHttp(request).getRequestURI());
-            request.getRequestDispatcher("/account/access/denied").forward(request,response);
+            request.getRequestDispatcher("/account/access/denied").forward(request, response);
         } catch (ServletException e) {
             log.error("Redirect To Login Request error", e);
         }

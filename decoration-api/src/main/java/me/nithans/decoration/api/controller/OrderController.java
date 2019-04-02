@@ -20,9 +20,6 @@ public class OrderController extends AbstractController {
 
     /**
      * 创建订单
-     *
-     * @param vo
-     * @return
      */
     @PostMapping("/order")
     public ResultInfo<?> createOrder(@RequestBody OrderDetailVO vo) {
@@ -35,8 +32,6 @@ public class OrderController extends AbstractController {
 
     /**
      * 获取订单列表
-     * @param userId
-     * @return
      */
     @GetMapping("/orders")
     public ResultInfo<?> getOrders(@RequestParam("userId") Integer userId) {
@@ -46,8 +41,6 @@ public class OrderController extends AbstractController {
 
     /**
      * 获取订单详情列表
-     * @param userId
-     * @return
      */
     @GetMapping("/orders/detail")
     public ResultInfo<?> getOrderDetailList(@RequestParam("userId") Integer userId) {

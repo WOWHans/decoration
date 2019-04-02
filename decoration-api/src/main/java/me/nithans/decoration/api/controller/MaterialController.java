@@ -18,11 +18,12 @@ public class MaterialController extends AbstractController {
 
     @PostMapping("/material")
     public ResultInfo<?> saveMaterialInfo(@RequestBody Material material) {
-       boolean result = materialService.saveMaterial(material);
-       if (result != true) {
-           return super.renderError(MATERIAL_CREATE_ERROR.getCode(),MATERIAL_CREATE_ERROR.getMsg());
-       }
-       return super.renderSuccess();
+        boolean result = materialService.saveMaterial(material);
+        if (result != true) {
+            return super
+                .renderError(MATERIAL_CREATE_ERROR.getCode(), MATERIAL_CREATE_ERROR.getMsg());
+        }
+        return super.renderSuccess();
     }
 
     @GetMapping("/material")

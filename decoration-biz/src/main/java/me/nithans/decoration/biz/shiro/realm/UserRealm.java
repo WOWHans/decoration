@@ -26,8 +26,6 @@ public class UserRealm extends AuthorizingRealm {
 
     /**
      * 授权 将有权限的resource id 集合放入授权信息内，用于后面检验是否可访问
-     * @param principalCollection
-     * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -42,12 +40,10 @@ public class UserRealm extends AuthorizingRealm {
 
     /**
      * 登录
-     * @param authenticationToken
-     * @return
-     * @throws AuthenticationException
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+        throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
         User user = userService.findUserByUsername(username);
         if (null == user) {
@@ -56,7 +52,8 @@ public class UserRealm extends AuthorizingRealm {
         if (user.getStatus().intValue() == UserStatusEnum.DISABLED.getCode()) {
             throw new DisabledAccountException("账号已被禁用");
         }
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user.getUsername(),user.getPassword(),getName());
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
+            user.getUsername(), user.getPassword(), getName());
         return simpleAuthenticationInfo;
     }
 }

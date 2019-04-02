@@ -39,10 +39,12 @@ public class RoleResourceServiceImpl implements RoleResourceService {
         if (CollectionUtils.isEmpty(userRoleList)) {
             return Collections.emptyList();
         }
-        List<Integer> roleIdList = userRoleList.stream().map(item -> item.getRoleId()).collect(Collectors.toList());
+        List<Integer> roleIdList = userRoleList.stream().map(item -> item.getRoleId())
+            .collect(Collectors.toList());
         RoleResourceCriteria roleResourceCriteria = new RoleResourceCriteria();
         roleResourceCriteria.createCriteria().andRoleIdIn(roleIdList);
-        List<RoleResource> roleResourceList = roleResourceMapper.selectByExample(roleResourceCriteria);
+        List<RoleResource> roleResourceList = roleResourceMapper
+            .selectByExample(roleResourceCriteria);
         return roleResourceList;
     }
 }

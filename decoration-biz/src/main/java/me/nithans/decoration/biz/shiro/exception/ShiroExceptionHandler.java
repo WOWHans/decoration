@@ -13,21 +13,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public class ShiroExceptionHandler implements HandlerExceptionResolver {
+
     @Override
-    public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+    public ModelAndView resolveException(HttpServletRequest httpServletRequest,
+        HttpServletResponse httpServletResponse, Object o, Exception e) {
         ModelAndView mv = new ModelAndView();
         FastJsonJsonView jsonView = new FastJsonJsonView();
-        Map<String,Object> attributesMap = Maps.newHashMap();
-        attributesMap.put("status",false);
+        Map<String, Object> attributesMap = Maps.newHashMap();
+        attributesMap.put("status", false);
         if (e instanceof UnauthenticatedException) {
             attributesMap.put("code", ResponseCode.USER_NOT_LOGIN.getCode());
             attributesMap.put("msg", ResponseCode.USER_NOT_LOGIN.getMsg());
-        } else if(e instanceof UnauthorizedException) {
+        } else if (e instanceof UnauthorizedException) {
             attributesMap.put("code", ResponseCode.USER_NO_AUTHORITY.getCode());
             attributesMap.put("msg", ResponseCode.USER_NO_AUTHORITY.getMsg());
         } else {
             attributesMap.put("code", ResponseCode.NOKNOWN_ERROR.getCode());
-            attributesMap.put("msg",e.getMessage());
+            attributesMap.put("msg", e.getMessage());
         }
         jsonView.setAttributesMap(attributesMap);
         mv.setView(jsonView);

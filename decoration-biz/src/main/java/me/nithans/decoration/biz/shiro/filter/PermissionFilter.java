@@ -21,24 +21,22 @@ public class PermissionFilter extends AccessControlFilter {
 
     /**
      * 校验授权资源
-     * @param servletRequest
-     * @param servletResponse
-     * @param o
-     * @return
-     * @throws Exception
      */
     @Override
-    protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
+    protected boolean isAccessAllowed(ServletRequest servletRequest,
+        ServletResponse servletResponse, Object o) throws Exception {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String url = request.getServletPath();
         List<Resource> resourceList = resourceService.findResourceByUrl(url);
-        List<String> resourceIdList = resourceList.stream().map(resource -> String.valueOf(resource.getId())).collect(Collectors.toList());
+        List<String> resourceIdList = resourceList.stream()
+            .map(resource -> String.valueOf(resource.getId())).collect(Collectors.toList());
         Subject subject = SecurityUtils.getSubject();
         return subject.isPermittedAll(resourceIdList.toArray(new String[resourceIdList.size()]));
     }
 
     @Override
-    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse)
+        throws Exception {
         return false;
     }
 }

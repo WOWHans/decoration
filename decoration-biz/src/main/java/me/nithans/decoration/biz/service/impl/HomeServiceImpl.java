@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class HomeServiceImpl implements HomeService {
+
     @Autowired
     private HomeBaseInfoMapper homeBaseInfoMapper;
 
@@ -20,6 +21,6 @@ public class HomeServiceImpl implements HomeService {
         HomeBaseInfoCriteria baseInfoCriteria = new HomeBaseInfoCriteria();
         baseInfoCriteria.createCriteria().andUserIdEqualTo(userId);
         List<HomeBaseInfo> baseInfoList = homeBaseInfoMapper.selectByExample(baseInfoCriteria);
-        return CollectionUtils.isNotEmpty(baseInfoList)? baseInfoList.get(0):null;
+        return CollectionUtils.isNotEmpty(baseInfoList) ? baseInfoList.get(0) : null;
     }
 }

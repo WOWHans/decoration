@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/home")
-public class HomeInfoController extends AbstractController{
+public class HomeInfoController extends AbstractController {
+
     @Autowired
     private HomeService homeService;
 
