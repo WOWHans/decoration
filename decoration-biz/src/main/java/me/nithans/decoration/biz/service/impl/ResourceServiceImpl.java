@@ -168,9 +168,7 @@ public class ResourceServiceImpl implements ResourceService {
         if (childList != null) {
             resourceVO.setChildResourceList(childList.stream().map(this::convertToResourceVO).collect(Collectors.toList()));
             List<ResourceVO> parentList = resourceVO.getChildResourceList();
-            parentList.forEach(
-                    childParent -> buildMenuTree(childParent)
-            );
+            parentList.forEach(this::buildMenuTree);
         }
         return resourceVO;
     }
