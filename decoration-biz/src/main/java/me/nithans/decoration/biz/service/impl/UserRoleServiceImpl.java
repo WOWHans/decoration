@@ -1,6 +1,7 @@
 package me.nithans.decoration.biz.service.impl;
 
 import me.nithans.decoration.biz.service.UserRoleService;
+import me.nithans.decoration.dal.domain.decoration.Role;
 import me.nithans.decoration.dal.domain.decoration.UserRole;
 import me.nithans.decoration.dal.domain.decoration.UserRoleCriteria;
 import me.nithans.decoration.dal.mapper.decoration.UserRoleMapper;
@@ -42,5 +43,12 @@ public class UserRoleServiceImpl implements UserRoleService {
         UserRoleCriteria userRoleCriteria = new UserRoleCriteria();
         userRoleCriteria.createCriteria().andRoleIdEqualTo(roleId);
         userRoleMapper.deleteByExample(userRoleCriteria);
+    }
+
+    @Override
+    public List<UserRole> findRoleByUserId(Integer userId) {
+        UserRoleCriteria criteria = new UserRoleCriteria();
+        criteria.createCriteria().andUserIdEqualTo(userId);
+        return userRoleMapper.selectByExample(criteria);
     }
 }

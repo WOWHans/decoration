@@ -57,16 +57,23 @@ public class LoginController extends AbstractController {
         return super.renderSuccess();
     }
 
-    @RequestMapping(value = "/access/denied")
-    public ResultInfo connectRefused() {
-        return super.renderError(ResponseCode.USER_NOT_LOGIN.getCode(),
-            ResponseCode.USER_NOT_LOGIN.getMsg());
-    }
-
     @RequestMapping(value = "/register")
     public ResultInfo register(@Validated @RequestBody RegisterUserVO registerUserVO)
         throws Exception {
         userService.create(registerUserVO);
         return super.renderSuccess();
     }
+
+    @GetMapping("/{userId}")
+    public ResultInfo detail(@PathVariable("userId") Integer userId) {
+
+    }
+
+    @RequestMapping(value = "/access/denied")
+    public ResultInfo connectRefused() {
+        return super.renderError(ResponseCode.USER_NOT_LOGIN.getCode(),
+            ResponseCode.USER_NOT_LOGIN.getMsg());
+    }
+
+
 }

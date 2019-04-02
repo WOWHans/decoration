@@ -1,11 +1,17 @@
 package me.nithans.decoration.biz.service.impl;
 
+import java.util.stream.Collectors;
+import me.nithans.decoration.biz.bean.vo.RegisterDetailUserVO;
 import me.nithans.decoration.biz.bean.vo.RegisterUserVO;
+import me.nithans.decoration.biz.bean.vo.RoleVO;
+import me.nithans.decoration.biz.service.RoleService;
 import me.nithans.decoration.biz.service.UserGroupService;
 import me.nithans.decoration.biz.service.UserRoleService;
 import me.nithans.decoration.biz.service.UserService;
+import me.nithans.decoration.dal.domain.decoration.Role;
 import me.nithans.decoration.dal.domain.decoration.User;
 import me.nithans.decoration.dal.domain.decoration.UserCriteria;
+import me.nithans.decoration.dal.domain.decoration.UserRole;
 import me.nithans.decoration.dal.mapper.decoration.UserMapper;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
@@ -20,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import sun.jvm.hotspot.debugger.DebuggerException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,6 +40,8 @@ public class UserServiceImpl implements UserService {
     private UserGroupService userGroupService;
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public String encryptPassword(String password) {
@@ -109,5 +118,19 @@ public class UserServiceImpl implements UserService {
         userCriteria.createCriteria().andUsernameEqualTo(username);
         List<User> userList = userMapper.selectByExample(userCriteria);
         return CollectionUtils.isEmpty(userList) ? null : userList.get(0);
+    }
+
+    @Override
+    public RegisterDetailUserVO findUserDetailById(Integer userId) {
+        List<UserRole> userRoleList = userRoleService.findRoleByUserId(userId);
+        if (CollectionUtils.isEmpty(userRoleList)) {
+            throw new DebuggerException("未分配用户角色");
+        }
+        List<Integer> roleIdList = userRoleList.stream().map(UserRole::getId)
+            .collect(Collectors.toList());
+        List<Role> roleList = roleService.findRoleByBatchId(roleIdList);
+        List<RoleVO> roleVOList = roleService.convertToRoleVO(roleList);
+        // todo
+        return null;
     }
 }
