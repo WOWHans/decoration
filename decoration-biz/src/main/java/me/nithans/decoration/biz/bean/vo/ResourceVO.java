@@ -15,6 +15,8 @@ public class ResourceVO {
 
     private Integer parentId;
 
+    private Byte type;
+
     private List<ResourceVO> childResourceList = Lists.newArrayList();
 
     public Integer getResourceId() {
@@ -51,6 +53,14 @@ public class ResourceVO {
 
     public Integer getParentId() {
         return parentId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public void setParentId(Integer parentId) {

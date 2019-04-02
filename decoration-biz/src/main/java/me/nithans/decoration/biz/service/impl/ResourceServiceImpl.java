@@ -115,12 +115,12 @@ public class ResourceServiceImpl implements ResourceService {
             Resource parentResource = parentResourceList.get(0);
             parentResourceVO = convertToResourceVO(parentResource);
             parentResourceVO.setChildResourceList(Lists.newArrayList(childResourceVO));
+            if (!menuMap.containsKey(parentResource)) {
+                menuMap.put(parentResource, Sets.newHashSet(convertToResource(childResourceVO)));
+            } else {
+                menuMap.get(parentResource).add(convertToResource(childResourceVO));
+            }
             if (parentResourceVO.getParentId() != null) {
-                if (!menuMap.containsKey(parentResource.getParentId())) {
-                    menuMap.put(findResourceById(parentResource.getParentId()).get(0), Sets.newHashSet(parentResource));
-                } else {
-                    menuMap.get(parentResource.getParentId()).add(parentResource);
-                }
                 parentResourceVO = findParentResource(parentResourceVO);
             }
         }
@@ -136,6 +136,7 @@ public class ResourceServiceImpl implements ResourceService {
     private List<ResourceVO> findComplexResource(List<ResourceVO> childRescourceVOList) {
         List<ResourceVO> resourceVOList = Lists.newArrayList();
 //        Table<Integer,Integer, List<ResourceVO>> table = HashBasedTable.create();
+        menuMap.clear();
         childRescourceVOList.forEach(
                 childResource -> {
                     ResourceVO resourceVO = findParentResource(childResource);
@@ -156,6 +157,7 @@ public class ResourceServiceImpl implements ResourceService {
 //        List<ResourceVO> allMenus = menuMap.values().stream().map(this::convertToResourceVO).collect(Collectors.toList());
 //        allMenus.stream().filter(item -> StringUtils.isEmpty(item.getUrl())).collect(Collectors.toList());
 
+
     }
 
     private ResourceVO convertToResourceVO(Resource resource) {
@@ -165,6 +167,18 @@ public class ResourceServiceImpl implements ResourceService {
         resourceVO.setName(resource.getName());
         resourceVO.setUrl(resource.getUrl());
         resourceVO.setParentId(resource.getParentId());
+        resourceVO.setType(resource.getType());
         return resourceVO;
+    }
+
+    private Resource convertToResource(ResourceVO resourceVO) {
+        Resource resource = new Resource();
+        resource.setId(resourceVO.getResourceId());
+        resource.setCode(resourceVO.getCode());
+        resource.setName(resourceVO.getName());
+        resource.setUrl(resourceVO.getUrl());
+        resource.setParentId(resourceVO.getParentId());
+        resource.setType(resourceVO.getType());
+        return resource;
     }
 }
