@@ -20,7 +20,7 @@ public interface ResourceService {
     List<ResourceVO> findResourceByRoleId(Integer roleId);
 
     Set<String> findResourceByUserId(Integer userId);
-    List<Resource> findResourceByQuery(ResourceQuery resourceQuery);
+    List<Resource> findResourceByUrl(String url);
 
     List<Resource> findResourceById(Integer id);
 }

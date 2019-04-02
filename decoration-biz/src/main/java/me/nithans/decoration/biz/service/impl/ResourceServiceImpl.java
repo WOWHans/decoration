@@ -31,7 +31,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Autowired
     private ResourceMapper resourceMapper;
 
-    private Map<Resource,Set<Resource>> menuMap = Maps.newConcurrentMap();
+    private Map<Resource, Set<Resource>> menuMap = Maps.newConcurrentMap();
 
     @Override
     public void addResource(ResourceVO resourceVO) {
@@ -49,23 +49,15 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Set<String> findResourceByUserId(Integer userId) {
-        Set<String> resourceIdList = roleResourceService.findRoleResourceByUserId(userId).stream().map(item -> String.valueOf(item.getResourceId())).collect(Collectors.toSet());
+        Set<String> resourceIdList = roleResourceService.findRoleResourceByUserId(userId).stream()
+            .map(item -> String.valueOf(item.getResourceId())).collect(Collectors.toSet());
         return resourceIdList;
     }
 
     @Override
-    public List<Resource> findResourceByQuery(ResourceQuery query) {
+    public List<Resource> findResourceByUrl(String url) {
         ResourceCriteria criteria = new ResourceCriteria();
-        ResourceCriteria.Criteria c = criteria.createCriteria();
-        if (null != query.getId()) {
-            c.andIdEqualTo(query.getId());
-        }
-        if (!StringUtils.isEmpty(query.getUrl())) {
-            c.andUrlEqualTo(query.getUrl());
-        }
-        if (null != query.getCode()) {
-            c.andCodeEqualTo(query.getCode());
-        }
+        criteria.createCriteria().andUrlEqualTo(url);
         return resourceMapper.selectByExample(criteria);
     }
 
@@ -83,78 +75,65 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<ResourceVO> findResourceByRoleId(Integer roleId) {
         List<RoleResource> roleResourceList = roleResourceService.findRoleResourceByUserId(roleId);
-        List<ResourceVO> resourceVOList = Lists.newArrayList();
+        List<Resource> resourceList = Lists.newArrayList();
         roleResourceList.forEach(roleResource -> {
-            ResourceQuery query = new ResourceQuery();
-            query.setId(roleResource.getResourceId());
-            List<Resource> resourceList = findResourceByQuery(query);
-            if (!CollectionUtils.isEmpty(resourceList)) {
-                Resource resource = resourceList.get(0);
+            List<Resource> resourceByRoleList = findResourceById(roleResource.getResourceId());
+            if (!CollectionUtils.isEmpty(resourceByRoleList)) {
+                Resource resource = resourceByRoleList.get(0);
                 if (!menuMap.containsKey(resource.getParentId())) {
-                    menuMap.put(findResourceById(resource.getParentId()).get(0), Sets.newHashSet(resource));
+                    menuMap.put(findResourceById(resource.getParentId()).get(0),
+                        Sets.newHashSet(resource));
                 } else {
                     menuMap.get(resource.getParentId()).add(resource);
                 }
-                ResourceVO childResourceVO = convertToResourceVO(resource);
-
-                resourceVOList.add(childResourceVO);
+                resourceList.add(resource);
             }
         });
-        findComplexResource(resourceVOList);
+        buildResourceTree(resourceList);
         return convertToTree();
     }
 
 
     /**
      * 根据分配的资源获取整个相关权限的菜单树 单一菜单树
-     * @param childResourceVO
-     * @return
      */
-    private ResourceVO findParentResource(ResourceVO childResourceVO) {
-        List<Resource> parentResourceList = findResourceById(childResourceVO.getParentId());
-        ResourceVO parentResourceVO = childResourceVO;
+    private Resource findParentResource(Resource resource) {
+        List<Resource> parentResourceList = findResourceById(resource.getParentId());
+        Resource parentResource = resource;
         if (!CollectionUtils.isEmpty(parentResourceList)) {
-            Resource parentResource = parentResourceList.get(0);
-            parentResourceVO = convertToResourceVO(parentResource);
-            parentResourceVO.setChildResourceList(Lists.newArrayList(childResourceVO));
+            parentResource = parentResourceList.get(0);
             if (!menuMap.containsKey(parentResource)) {
-                menuMap.put(parentResource, Sets.newHashSet(convertToResource(childResourceVO)));
+                menuMap.put(parentResource, Sets.newHashSet(resource));
             } else {
-                menuMap.get(parentResource).add(convertToResource(childResourceVO));
+                menuMap.get(parentResource).add(resource);
             }
-            if (parentResourceVO.getParentId() != null) {
-                parentResourceVO = findParentResource(parentResourceVO);
+            if (resource.getParentId() != null) {
+                findParentResource(parentResource);
             }
         }
-        return parentResourceVO;
+        return parentResource;
     }
 
     /**
      * 简单想法是把所有有权限的菜单全保存在Set里，然后再进行建树
-     *
-     * @param childRescourceVOList
-     * @return
      */
-    private List<ResourceVO> findComplexResource(List<ResourceVO> childRescourceVOList) {
-        List<ResourceVO> resourceVOList = Lists.newArrayList();
-//        Table<Integer,Integer, List<ResourceVO>> table = HashBasedTable.create();
+    private List<Resource> buildResourceTree(List<Resource> childResourceVOList) {
+        List<Resource> resourceList = Lists.newArrayList();
         menuMap.clear();
-        childRescourceVOList.forEach(
-                childResource -> {
-                    ResourceVO resourceVO = findParentResource(childResource);
-                    if (CollectionUtils.isEmpty(resourceVOList)) {
-                        resourceVOList.add(resourceVO);
-                    }
-                    resourceVOList.add(resourceVO);
-                }
+        childResourceVOList.forEach(
+            childResource -> {
+                Resource resource = findParentResource(childResource);
+                resourceList.add(resource);
+            }
         );
-        return resourceVOList;
+        return resourceList;
     }
 
     private List<ResourceVO> convertToTree() {
         List<ResourceVO> menuTrees = Lists.newArrayList();
         // 获取最上层父级菜单
-        List<Resource> parentResourceList = menuMap.keySet().stream().filter(key -> key.getParentId() == null).collect(Collectors.toList());
+        List<Resource> parentResourceList = menuMap.keySet().stream()
+            .filter(key -> key.getParentId() == null).collect(Collectors.toList());
         // 通过父级菜单的Id 去找 map里的key 然后将value塞入父级菜单的自己菜单内，子级菜单做ke层层递归
         parentResourceList.forEach(parent -> {
             ResourceVO resourceVO = convertToResourceVO(parent);
@@ -166,7 +145,8 @@ public class ResourceServiceImpl implements ResourceService {
     private ResourceVO buildMenuTree(ResourceVO resourceVO) {
         Set<Resource> childList = menuMap.get(convertToResource(resourceVO));
         if (childList != null) {
-            resourceVO.setChildResourceList(childList.stream().map(this::convertToResourceVO).collect(Collectors.toList()));
+            resourceVO.setChildResourceList(
+                childList.stream().map(this::convertToResourceVO).collect(Collectors.toList()));
             List<ResourceVO> parentList = resourceVO.getChildResourceList();
             parentList.forEach(this::buildMenuTree);
         }

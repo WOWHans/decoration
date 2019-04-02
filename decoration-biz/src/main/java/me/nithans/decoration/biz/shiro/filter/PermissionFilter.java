@@ -31,9 +31,7 @@ public class PermissionFilter extends AccessControlFilter {
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String url = request.getServletPath();
-        ResourceQuery query = new ResourceQuery();
-        query.setUrl(url);
-        List<Resource> resourceList = resourceService.findResourceByQuery(query);
+        List<Resource> resourceList = resourceService.findResourceByUrl(url);
         List<String> resourceIdList = resourceList.stream().map(resource -> String.valueOf(resource.getId())).collect(Collectors.toList());
         Subject subject = SecurityUtils.getSubject();
         return subject.isPermittedAll(resourceIdList.toArray(new String[resourceIdList.size()]));
