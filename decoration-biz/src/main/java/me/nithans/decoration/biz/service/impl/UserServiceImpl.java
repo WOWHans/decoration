@@ -11,6 +11,7 @@ import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.dal.domain.decoration.Role;
 import me.nithans.decoration.dal.domain.decoration.User;
 import me.nithans.decoration.dal.domain.decoration.UserCriteria;
+import me.nithans.decoration.dal.domain.decoration.UserGroup;
 import me.nithans.decoration.dal.domain.decoration.UserRole;
 import me.nithans.decoration.dal.mapper.decoration.UserMapper;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -131,6 +132,7 @@ public class UserServiceImpl implements UserService {
         List<Role> roleList = roleService.findRoleByBatchId(roleIdList);
         List<RoleVO> roleVOList = roleService.convertToRoleVO(roleList);
         // todo
+        List<UserGroup> userGroupList = userGroupService.findUserGroupByUserId(userId);
         return null;
     }
 }
