@@ -1,13 +1,17 @@
 package me.nithans.decoration.biz.service.impl;
 
 import java.util.stream.Collectors;
+import me.nithans.decoration.biz.bean.vo.GroupVO;
 import me.nithans.decoration.biz.bean.vo.RegisterDetailUserVO;
 import me.nithans.decoration.biz.bean.vo.RegisterUserVO;
 import me.nithans.decoration.biz.bean.vo.RoleVO;
+import me.nithans.decoration.biz.service.GroupService;
 import me.nithans.decoration.biz.service.RoleService;
 import me.nithans.decoration.biz.service.UserGroupService;
 import me.nithans.decoration.biz.service.UserRoleService;
 import me.nithans.decoration.biz.service.UserService;
+import me.nithans.decoration.common.exception.DecorationException;
+import me.nithans.decoration.dal.domain.decoration.Group;
 import me.nithans.decoration.dal.domain.decoration.Role;
 import me.nithans.decoration.dal.domain.decoration.User;
 import me.nithans.decoration.dal.domain.decoration.UserCriteria;
@@ -43,6 +47,8 @@ public class UserServiceImpl implements UserService {
     private UserRoleService userRoleService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private GroupService groupService;
 
     @Override
     public String encryptPassword(String password) {
@@ -122,10 +128,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RegisterDetailUserVO findUserDetailById(Integer userId) {
+    public User findUserById(Integer userId) {
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
+    public RegisterDetailUserVO findUserDetailById(Integer userId) throws DecorationException {
+        RegisterDetailUserVO registerDetailUserVO = new RegisterDetailUserVO();
+
+        User user = findUserById(userId);
+        if (user == null) {
+            throw new DecorationException("该用户不存在");
+        }
         List<UserRole> userRoleList = userRoleService.findRoleByUserId(userId);
         if (CollectionUtils.isEmpty(userRoleList)) {
-            throw new DebuggerException("未分配用户角色");
+            throw new DecorationException("未分配用户角色");
         }
         List<Integer> roleIdList = userRoleList.stream().map(UserRole::getId)
             .collect(Collectors.toList());
@@ -133,6 +150,18 @@ public class UserServiceImpl implements UserService {
         List<RoleVO> roleVOList = roleService.convertToRoleVO(roleList);
         // todo
         List<UserGroup> userGroupList = userGroupService.findUserGroupByUserId(userId);
-        return null;
+        List<Integer> groupIdList = userGroupList.stream().map(UserGroup::getGroupId).collect(
+            Collectors.toList());
+        List<Group> groupList = groupService.findGroupByBatchId(groupIdList);
+        List<GroupVO> groupVOList = groupService.convertToGroupVO(groupList);
+
+        registerDetailUserVO.setRoles(roleVOList);
+        registerDetailUserVO.setGroups(groupVOList);
+        registerDetailUserVO.setUserId(userId);
+        registerDetailUserVO.setEmail(user.getEmail());
+        registerDetailUserVO.setTelephone(user.getTelephone());
+        registerDetailUserVO.setStatus(user.getStatus());
+
+        return registerDetailUserVO;
     }
 }

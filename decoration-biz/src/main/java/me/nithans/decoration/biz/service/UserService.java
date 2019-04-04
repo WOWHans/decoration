@@ -2,6 +2,7 @@ package me.nithans.decoration.biz.service;
 
 import me.nithans.decoration.biz.bean.vo.RegisterDetailUserVO;
 import me.nithans.decoration.biz.bean.vo.RegisterUserVO;
+import me.nithans.decoration.common.exception.DecorationException;
 import me.nithans.decoration.dal.domain.decoration.User;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
-    RegisterDetailUserVO findUserDetailById(Integer userId);
+    RegisterDetailUserVO findUserDetailById(Integer userId) throws DecorationException;
+
+    User findUserById(Integer userId);
 }
