@@ -1,5 +1,8 @@
 package me.nithans.decoration.biz.service.impl;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import me.nithans.decoration.biz.service.RoleResourceService;
 import me.nithans.decoration.dal.domain.decoration.RoleResource;
 import me.nithans.decoration.dal.domain.decoration.RoleResourceCriteria;
@@ -10,10 +13,6 @@ import me.nithans.decoration.dal.mapper.decoration.UserRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RoleResourceServiceImpl implements RoleResourceService {

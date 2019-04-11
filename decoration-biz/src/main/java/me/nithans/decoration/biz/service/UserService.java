@@ -5,8 +5,6 @@ import me.nithans.decoration.biz.bean.vo.RegisterUserVO;
 import me.nithans.decoration.common.exception.DecorationException;
 import me.nithans.decoration.dal.domain.decoration.User;
 
-import java.util.List;
-
 public interface UserService {
 
     String encryptPassword(String password);

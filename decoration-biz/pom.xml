@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>decoration</artifactId>
-        <groupId>me.nithans.decoration</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>decoration</artifactId>
+    <groupId>me.nithans.decoration</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>decoration-biz</artifactId>
+  <artifactId>decoration-biz</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>me.nithans.decoration</groupId>
-            <artifactId>decoration-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>me.nithans.decoration</groupId>
-            <artifactId>decoration-dal</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>me.nithans.decoration</groupId>
+      <artifactId>decoration-common</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>me.nithans.decoration</groupId>
+      <artifactId>decoration-dal</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-quartz</artifactId>-->
-        <!--</dependency>-->
-    </dependencies>
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-quartz</artifactId>-->
+    <!--</dependency>-->
+  </dependencies>
 </project>

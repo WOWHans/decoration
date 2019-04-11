@@ -2,15 +2,14 @@ package me.nithans.decoration.biz.shiro.exception;
 
 import com.alibaba.fastjson.support.spring.FastJsonJsonView;
 import com.google.common.collect.Maps;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import me.nithans.decoration.common.enums.ResponseCode;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 public class ShiroExceptionHandler implements HandlerExceptionResolver {
 

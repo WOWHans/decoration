@@ -1,13 +1,12 @@
 package me.nithans.decoration.biz.shiro.filter;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
-import org.apache.shiro.web.util.WebUtils;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
 
 @Slf4j
 public class MyFormAuthenticationFilter extends FormAuthenticationFilter {

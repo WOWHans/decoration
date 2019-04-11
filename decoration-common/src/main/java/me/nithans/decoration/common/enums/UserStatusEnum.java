@@ -1,10 +1,8 @@
 package me.nithans.decoration.common.enums;
 
 import com.google.common.collect.Maps;
-
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public enum UserStatusEnum {
 

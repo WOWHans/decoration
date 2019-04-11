@@ -1,16 +1,14 @@
 package me.nithans.decoration.biz.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import me.nithans.decoration.biz.service.UserRoleService;
-import me.nithans.decoration.dal.domain.decoration.Role;
 import me.nithans.decoration.dal.domain.decoration.UserRole;
 import me.nithans.decoration.dal.domain.decoration.UserRoleCriteria;
 import me.nithans.decoration.dal.mapper.decoration.UserRoleMapper;
 import me.nithans.decoration.dal.mapper.decoration.ext.UserRoleExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleService {

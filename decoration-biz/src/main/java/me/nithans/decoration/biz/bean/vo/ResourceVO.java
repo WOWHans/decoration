@@ -1,7 +1,6 @@
 package me.nithans.decoration.biz.bean.vo;
 
 import com.google.common.collect.Lists;
-
 import java.util.List;
 
 public class ResourceVO {

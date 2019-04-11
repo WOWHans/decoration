@@ -1,5 +1,7 @@
 package me.nithans.decoration.biz.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import me.nithans.decoration.biz.service.UserGroupService;
 import me.nithans.decoration.dal.domain.decoration.UserGroup;
 import me.nithans.decoration.dal.domain.decoration.UserGroupCriteria;
@@ -7,9 +9,6 @@ import me.nithans.decoration.dal.mapper.decoration.UserGroupMapper;
 import me.nithans.decoration.dal.mapper.decoration.ext.UserGroupExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserGroupServiceImpl implements UserGroupService {

@@ -1,21 +1,21 @@
 package me.nithans.decoration.biz.shiro.realm;
 
+import java.util.Set;
 import me.nithans.decoration.biz.service.ResourceService;
 import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.common.enums.UserStatusEnum;
 import me.nithans.decoration.dal.domain.decoration.User;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class UserRealm extends AuthorizingRealm {
 

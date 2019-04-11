@@ -1,5 +1,6 @@
 package me.nithans.decoration.biz.service.impl;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import me.nithans.decoration.biz.bean.vo.GroupVO;
 import me.nithans.decoration.biz.bean.vo.RegisterDetailUserVO;
@@ -29,9 +30,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
-import sun.jvm.hotspot.debugger.DebuggerException;
 
 @Service
 public class UserServiceImpl implements UserService {

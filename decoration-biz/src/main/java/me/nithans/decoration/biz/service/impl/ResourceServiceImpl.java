@@ -1,10 +1,17 @@
 package me.nithans.decoration.biz.service.impl;
 
-import com.google.common.collect.*;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import me.nithans.decoration.biz.bean.vo.ResourceVO;
 import me.nithans.decoration.biz.service.ResourceService;
 import me.nithans.decoration.biz.service.RoleResourceService;
-import me.nithans.decoration.common.pojo.query.ResourceQuery;
+import me.nithans.decoration.biz.service.UserRoleService;
+import me.nithans.decoration.common.exception.DecorationException;
 import me.nithans.decoration.dal.domain.decoration.Resource;
 import me.nithans.decoration.dal.domain.decoration.ResourceCriteria;
 import me.nithans.decoration.dal.domain.decoration.RoleResource;
@@ -15,19 +22,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private RoleResourceService roleResourceService;
+    @Autowired
+    private UserRoleService userRoleService;
     @Autowired
     private ResourceMapper resourceMapper;
 
@@ -73,8 +75,22 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public List<ResourceVO> findResourceVOByUserId(Integer userId) throws DecorationException {
+        List<RoleResource> roleResourceList = roleResourceService.findRoleResourceByUserId(userId);
+        if (CollectionUtils.isEmpty(roleResourceList)) {
+            throw new DecorationException("该用户无权限访问");
+        }
+        roleResourceList = roleResourceList.stream().distinct().collect(Collectors.toList());
+        return buildTreeMenu(roleResourceList);
+    }
+
+    @Override
     public List<ResourceVO> findResourceByRoleId(Integer roleId) {
         List<RoleResource> roleResourceList = roleResourceService.findRoleResourceByUserId(roleId);
+        return buildTreeMenu(roleResourceList);
+    }
+
+    private List<ResourceVO> buildTreeMenu(List<RoleResource> roleResourceList) {
         List<Resource> resourceList = Lists.newArrayList();
         roleResourceList.forEach(roleResource -> {
             List<Resource> resourceByRoleList = findResourceById(roleResource.getResourceId());
@@ -92,7 +108,6 @@ public class ResourceServiceImpl implements ResourceService {
         buildResourceTree(resourceList);
         return convertToTree();
     }
-
 
     /**
      * 根据分配的资源获取整个相关权限的菜单树 单一菜单树

@@ -8,7 +8,6 @@ import me.nithans.decoration.biz.service.UserGroupService;
 import me.nithans.decoration.dal.domain.decoration.Group;
 import me.nithans.decoration.dal.domain.decoration.GroupCriteria;
 import me.nithans.decoration.dal.mapper.decoration.GroupMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

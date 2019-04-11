@@ -1,8 +1,7 @@
 package me.nithans.decoration.biz.service;
 
-import me.nithans.decoration.dal.domain.decoration.RoleResource;
-
 import java.util.List;
+import me.nithans.decoration.dal.domain.decoration.RoleResource;
 
 public interface RoleResourceService {
 
