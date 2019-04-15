@@ -21,7 +21,7 @@ public class ResourceController extends AbstractController {
         return super.renderResult(resourceService.findResourceByRoleId(roleId));
     }
 
-    @GetMapping("/resources")
+    @GetMapping("/resource/menu")
     public ResultInfo detail(@RequestParam("userId") Integer userId) throws DecorationException {
         List<ResourceVO> resourceVOList = resourceService.findResourceVOByUserId(userId);
         return super.renderResult(resourceVOList);
