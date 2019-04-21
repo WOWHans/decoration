@@ -12,6 +12,7 @@
   <artifactId>decoration-common</artifactId>
 
   <properties>
+    <guava.version>25.0-jre</guava.version>
     <shiro-spring.version>1.4.0</shiro-spring.version>
     <shiro-redis.version>2.6.2</shiro-redis.version>
     <fastjson.version>1.2.34</fastjson.version>
@@ -56,6 +57,11 @@
 
     <!-- tools -->
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>${fastjson.version}</version>
@@ -63,11 +69,6 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-commons</artifactId>
-      <version>2.1.1.RELEASE</version>
     </dependency>
 
   </dependencies>
