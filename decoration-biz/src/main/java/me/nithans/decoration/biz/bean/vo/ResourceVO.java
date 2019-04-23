@@ -9,6 +9,10 @@ public class ResourceVO {
 
     private String name;
 
+    private String icon;
+
+    private String component;
+
     private Integer code;
 
     private String url;
@@ -33,6 +37,22 @@ public class ResourceVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
     }
 
     public Integer getCode() {

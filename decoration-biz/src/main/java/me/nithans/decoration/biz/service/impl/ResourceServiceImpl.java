@@ -184,6 +184,8 @@ public class ResourceServiceImpl implements ResourceService {
         resource.setId(resourceVO.getResourceId());
         resource.setCode(resourceVO.getCode());
         resource.setName(resourceVO.getName());
+        resource.setIcon(resourceVO.getIcon());
+        resource.setComponent(resourceVO.getComponent());
         resource.setUrl(resourceVO.getUrl());
         resource.setParentId(resourceVO.getParentId());
         resource.setType(resourceVO.getType());

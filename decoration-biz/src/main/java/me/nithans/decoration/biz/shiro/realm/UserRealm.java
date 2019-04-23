@@ -1,6 +1,7 @@
 package me.nithans.decoration.biz.shiro.realm;
 
 import java.util.Set;
+import me.nithans.decoration.biz.bean.dto.UserDTO;
 import me.nithans.decoration.biz.service.ResourceService;
 import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.common.enums.UserStatusEnum;
@@ -29,11 +30,9 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) principalCollection.getPrimaryPrincipal();
+        UserDTO userDTO = (UserDTO) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-
-        User user = userService.findUserByUsername(username);
-        Set<String> resourceSet = resourceService.findResourceByUserId(user.getId());
+        Set<String> resourceSet = resourceService.findResourceByUserId(userDTO.getUserId());
         authorizationInfo.setStringPermissions(resourceSet);
         return authorizationInfo;
     }
@@ -53,7 +52,16 @@ public class UserRealm extends AuthorizingRealm {
             throw new DisabledAccountException("账号已被禁用");
         }
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
-            user.getUsername(), user.getPassword(), getName());
+            convertToUserDTO(user), user.getPassword(), getName());
         return simpleAuthenticationInfo;
+    }
+
+    private UserDTO convertToUserDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setTelephone(user.getTelephone());
+        userDTO.setStatus(user.getStatus());
+        return userDTO;
     }
 }

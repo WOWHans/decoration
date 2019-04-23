@@ -37,7 +37,7 @@ public class LoginController extends AbstractController {
             userService.encryptPassword(loginInfo.getPassword()));
         try {
             subject.login(token);
-            return super.renderResult(subject.getSession().getId().toString());
+            return super.renderResult(subject.getPrincipal());
         } catch (IncorrectCredentialsException e) {
             return super.renderError(ResponseCode.USER_PASSWORD_ERROR.getCode(),
                 ResponseCode.USER_PASSWORD_ERROR.getMsg());
@@ -49,7 +49,7 @@ public class LoginController extends AbstractController {
                 ResponseCode.USER_ACCOUNT_DISABLED.getMsg());
         } catch (Exception e) {
             log.error("登录失败 info:[username:{},password:{}]", loginInfo.getUsername(),
-                loginInfo.getPassword());
+                loginInfo.getPassword(), e);
             return super.renderError(ResponseCode.NOKNOWN_ERROR.getCode(), e.getMessage());
         }
     }

@@ -2,6 +2,7 @@ package me.nithans.decoration.biz.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import me.nithans.decoration.biz.bean.dto.UserDTO;
 import me.nithans.decoration.biz.service.OrderService;
 import me.nithans.decoration.dal.domain.decoration.Order;
 import me.nithans.decoration.dal.domain.decoration.OrderCriteria;
@@ -27,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(rollbackFor = Exception.class)
     public boolean createOrder(OrderDetailVO orderDetailVO) {
         // 订单号 username+时间戳
-        String orderSn = ((String) SecurityUtils.getSubject().getPrincipal())
+        String orderSn = ((UserDTO) SecurityUtils.getSubject().getPrincipal()).getUserName()
             .concat(String.valueOf(System.currentTimeMillis()));
         OrderDetail orderDetail = orderDetailVO.getOrderDetail();
         orderDetail.setOrderSn(orderSn);
