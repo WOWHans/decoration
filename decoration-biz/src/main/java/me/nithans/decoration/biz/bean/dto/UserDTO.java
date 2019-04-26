@@ -9,6 +9,7 @@ public class UserDTO implements Serializable {
   private String email;
   private String telephone;
   private Byte status;
+  private String cookie;
 
   public Integer getUserId() {
     return userId;
@@ -50,6 +51,14 @@ public class UserDTO implements Serializable {
     this.status = status;
   }
 
+  public String getCookie() {
+    return cookie;
+  }
+
+  public void setCookie(String cookie) {
+    this.cookie = cookie;
+  }
+
   @Override
   public String toString() {
     return "UserDTO{" +
@@ -58,6 +67,7 @@ public class UserDTO implements Serializable {
         ", email='" + email + '\'' +
         ", telephone='" + telephone + '\'' +
         ", status=" + status +
+        ", cookie='" + cookie + '\'' +
         '}';
   }
 }
