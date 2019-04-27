@@ -1,9 +1,10 @@
 package me.nithans.decoration.biz.bean.vo;
 
 import com.google.common.collect.Lists;
+import java.io.Serializable;
 import java.util.List;
 
-public class ResourceVO {
+public class ResourceVO implements Serializable {
 
     private Integer resourceId;
 
@@ -21,7 +22,7 @@ public class ResourceVO {
 
     private Byte type;
 
-    private List<ResourceVO> childResourceList = Lists.newArrayList();
+    private List<ResourceVO> children = Lists.newArrayList();
 
     public Integer getResourceId() {
         return resourceId;
@@ -87,11 +88,26 @@ public class ResourceVO {
         this.parentId = parentId;
     }
 
-    public List<ResourceVO> getChildResourceList() {
-        return childResourceList;
+    public List<ResourceVO> getChildren() {
+        return children;
     }
 
-    public void setChildResourceList(List<ResourceVO> childResourceList) {
-        this.childResourceList = childResourceList;
+    public void setChildren(List<ResourceVO> children) {
+        this.children = children;
+    }
+
+    @Override
+    public String toString() {
+        return "ResourceVO{" +
+            "resourceId=" + resourceId +
+            ", name='" + name + '\'' +
+            ", icon='" + icon + '\'' +
+            ", component='" + component + '\'' +
+            ", code=" + code +
+            ", url='" + url + '\'' +
+            ", parentId=" + parentId +
+            ", type=" + type +
+            ", children=" + children +
+            '}';
     }
 }
