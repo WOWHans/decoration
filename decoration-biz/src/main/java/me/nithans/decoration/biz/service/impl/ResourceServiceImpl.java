@@ -173,6 +173,7 @@ public class ResourceServiceImpl implements ResourceService {
         resourceVO.setResourceId(resource.getId());
         resourceVO.setCode(resource.getCode());
         resourceVO.setName(resource.getName());
+        resourceVO.setAlias(resource.getAlias());
         resourceVO.setUrl(resource.getUrl());
         resourceVO.setParentId(resource.getParentId());
         resourceVO.setType(resource.getType());
@@ -186,6 +187,7 @@ public class ResourceServiceImpl implements ResourceService {
         resource.setId(resourceVO.getResourceId());
         resource.setCode(resourceVO.getCode());
         resource.setName(resourceVO.getName());
+        resource.setAlias(resourceVO.getAlias());
         resource.setIcon(resourceVO.getIcon());
         resource.setComponent(resourceVO.getComponent());
         resource.setUrl(resourceVO.getUrl());
