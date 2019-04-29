@@ -1,6 +1,7 @@
 package me.nithans.decoration.api.controller;
 
 import me.nithans.decoration.api.bean.ResultInfo;
+import me.nithans.decoration.biz.bean.dto.UserDTO;
 import me.nithans.decoration.biz.bean.vo.RegisterUserVO;
 import me.nithans.decoration.biz.service.UserService;
 import me.nithans.decoration.common.enums.ResponseCode;
@@ -37,7 +38,9 @@ public class LoginController extends AbstractController {
             userService.encryptPassword(loginInfo.getPassword()));
         try {
             subject.login(token);
-            return super.renderResult(subject.getSession().getId().toString());
+            UserDTO userDTO = (UserDTO) subject.getPrincipal();
+            userDTO.setCookie(subject.getSession().getId().toString());
+            return super.renderResult(userDTO);
         } catch (IncorrectCredentialsException e) {
             return super.renderError(ResponseCode.USER_PASSWORD_ERROR.getCode(),
                 ResponseCode.USER_PASSWORD_ERROR.getMsg());
@@ -49,7 +52,7 @@ public class LoginController extends AbstractController {
                 ResponseCode.USER_ACCOUNT_DISABLED.getMsg());
         } catch (Exception e) {
             log.error("登录失败 info:[username:{},password:{}]", loginInfo.getUsername(),
-                loginInfo.getPassword());
+                loginInfo.getPassword(), e);
             return super.renderError(ResponseCode.NOKNOWN_ERROR.getCode(), e.getMessage());
         }
     }

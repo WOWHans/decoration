@@ -160,9 +160,9 @@ public class ResourceServiceImpl implements ResourceService {
     private ResourceVO buildMenuTree(ResourceVO resourceVO) {
         Set<Resource> childList = menuMap.get(convertToResource(resourceVO));
         if (childList != null) {
-            resourceVO.setChildResourceList(
+            resourceVO.setChildren(
                 childList.stream().map(this::convertToResourceVO).collect(Collectors.toList()));
-            List<ResourceVO> parentList = resourceVO.getChildResourceList();
+            List<ResourceVO> parentList = resourceVO.getChildren();
             parentList.forEach(this::buildMenuTree);
         }
         return resourceVO;
@@ -173,9 +173,12 @@ public class ResourceServiceImpl implements ResourceService {
         resourceVO.setResourceId(resource.getId());
         resourceVO.setCode(resource.getCode());
         resourceVO.setName(resource.getName());
+        resourceVO.setAlias(resource.getAlias());
         resourceVO.setUrl(resource.getUrl());
         resourceVO.setParentId(resource.getParentId());
         resourceVO.setType(resource.getType());
+        resourceVO.setComponent(resource.getComponent());
+        resourceVO.setIcon(resource.getIcon());
         return resourceVO;
     }
 
@@ -184,6 +187,9 @@ public class ResourceServiceImpl implements ResourceService {
         resource.setId(resourceVO.getResourceId());
         resource.setCode(resourceVO.getCode());
         resource.setName(resourceVO.getName());
+        resource.setAlias(resourceVO.getAlias());
+        resource.setIcon(resourceVO.getIcon());
+        resource.setComponent(resourceVO.getComponent());
         resource.setUrl(resourceVO.getUrl());
         resource.setParentId(resourceVO.getParentId());
         resource.setType(resourceVO.getType());
