@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="scm-dao" targetRuntime="MyBatis3">
+
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$" />
+            <property name="replaceString" value="Criteria" />
+        </plugin>
+
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+        <!--<plugin type="org.mybatis.generator.plugins.CachePlugin"> -->
+        <!--<property name="enableSubPackages" value="true"/> -->
+        <!--</plugin> -->
+
+        <commentGenerator>
+            <!-- 去除自动生成的注释 -->
+            <property name="suppressAllComments" value="false" />
+            <property name="suppressDate" value="false" />
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/erp_scm" userId="root" password="12345678">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="me.nithans.scm.dal.domain.scm" targetProject="src/main/java/"><!-- src/generated/java -->
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="sqlmap.scm" targetProject="src/main/resources/"> <!-- src/generated/resources -->
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="me.nithans.scm.dal.mapper.scm" targetProject="src/main/java/"> <!-- src/generated/java -->
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="sys_user" domainObjectName="User">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="sys_resource" domainObjectName="Resource">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="sys_user_role" domainObjectName="UserRole">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="sys_role_resource" domainObjectName="RoleResource">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table tableName="sys_user_group" domainObjectName="UserGroup">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="sys_role" domainObjectName="Role">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="sys_group" domainObjectName="Group">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+
+
+    </context>
+
+</generatorConfiguration>

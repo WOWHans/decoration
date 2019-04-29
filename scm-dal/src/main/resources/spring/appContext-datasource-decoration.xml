@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="dataSourceScm" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close" primary="true">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUrl" value="${db.scm.url}"/>
+        <property name="username" value="${db.scm.username}"/>
+        <property name="password" value="${db.scm.password}"/>
+        <property name="connectionTimeout" value="30000"/>
+        <property name="idleTimeout" value="30000"/>
+        <property name="maximumPoolSize" value="20"/>
+        <property name="maxLifetime" value="1800000"/>
+        <property name="connectionTestQuery" value="SELECT 1"/>
+        <property name="autoCommit" value="true"/>
+        <property name="poolName" value="DatebookHikariCP"/>
+    </bean>
+
+    <bean id="transactionManagerScm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" primary="true">
+        <property name="dataSource" ref="dataSourceScm"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManagerScm"/>
+
+    <bean id="sqlSessionFactoryScm" class="org.mybatis.spring.SqlSessionFactoryBean" primary="true">
+        <property name="dataSource" ref="dataSourceScm"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:sqlmap/scm/**/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryScm"/>
+        <property name="basePackage"
+                  value="me.nithans.scm.dal.mapper.scm"/>
+    </bean>
+</beans>
